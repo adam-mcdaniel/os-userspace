@@ -15,4 +15,5 @@ _start:
 
     li      a7, 0  # exit
     ecall
-    
+.size _start, . - _start
+.type _start, function   
