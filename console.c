@@ -9,6 +9,7 @@ void main(void) {
 	char c;
 	char command[256];
 	int at = 0;
+	printf("Welcome to the console in user space. Please type 'help' for help.\n");
 	printf("~> ");
 	do {
         c = getchar();
