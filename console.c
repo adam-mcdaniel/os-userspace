@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "libc/event.h"
+#include <event.h>
 
 static void run_command(char a[]);
 
@@ -67,7 +67,7 @@ static void run_command(char command[]) {
 		printf("Help is coming!\n");
 	}
 	else if (!strcmp(command, "gev")) {
-		InputEvent events[64];
+		struct virtio_input_event events[64];
 		int num = get_events(events, 64);
 		for (int i = 0;i < num;i++) {
 			printf("INPUT: [0x%02x:0x%02x:0x%08x]\n", events[i].type, events[i].code, events[i].value);

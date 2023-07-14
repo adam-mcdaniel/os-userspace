@@ -945,10 +945,10 @@
 #define SND_MAX			0x07
 #define SND_CNT			(SND_MAX+1)
 
-typedef struct virtio_input_event {
+struct virtio_input_event {
     unsigned short type;
     unsigned short code;
     unsigned int   value;
-} InputEvent;
+};
 
-unsigned int get_events(InputEvent event_buffer[], unsigned int max_events);
+unsigned int get_events(struct virtio_input_event *event_buffer, unsigned int max_events);

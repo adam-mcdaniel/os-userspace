@@ -9,14 +9,14 @@ static bool shift;
 
 static void run_command(char a[]);
 static char conv_key(int code);
-static int get_next_key(InputEvent events[], int at, int num, char *ret);
+static int get_next_key(struct virtio_input_event events[], int at, int num, char *ret);
 
 void main(void)
 {
     char c;
     char command[25];
     unsigned int at = 0;
-    InputEvent events[128];
+    struct virtio_input_event events[128];
     int atev = 0;
     int sizeev = 0;
 
@@ -156,10 +156,10 @@ static char conv_key(int code)
     return ret;
 }
 
-static int get_next_key(InputEvent events[], int at, int num, char *ret)
+static int get_next_key(struct virtio_input_event events[], int at, int num, char *ret)
 {
     int i;
-    InputEvent *ev;
+    struct virtio_input_event *ev;
     for (i = at; i < num; i++)
     {
         ev = events + i;
