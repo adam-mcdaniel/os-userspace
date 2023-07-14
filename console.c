@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <os.h>
+#include <unistd.h>
 #include "libc/event.h"
 
 static void run_command(char a[]);
