@@ -1,12 +1,32 @@
 #pragma once
 
-void sleep(int tm);
-void yield(void);
-int open(const char *path, int flags);
-int read(int fd, char *buffer, int max_size);
-int write(int fd, const char *buffer, int bytes);
-void close(int fd);
+typedef unsigned long size_t;
+typedef signed long ssize_t;
+typedef signed long off_t;
+typedef unsigned short mode_t;
+typedef unsigned long dev_t;
+
+struct stat;
+
+void    yield  (void);
+void    sleep  (int secs);
+int     stat   (const char *path, struct stat *stat);
+int     open   (const char *pathname, int flags, mode_t mode);
+int     close  (int fd);
+ssize_t read   (int fd, void *buf, size_t count);
+ssize_t write  (int fd, const void *buf, size_t count);
+off_t   lseek  (int fildes, off_t offset, int whence);
+int     unlink (const char *path);
+int     chmod  (const char *path, mode_t mode);
+int     mkdir  (const char *path, mode_t mode);
+int     rmdir  (const char *path);
+int     chdir  (const char *path);
+int     getcwd (char *buf, size_t bufsize);
+int     mknod  (const char *path, mode_t mode, dev_t dev);
 
 #define O_RDONLY 0
 #define O_WRONLY 1
 #define O_RDWR   2
+#define O_CREAT  0100
+#define O_TRUNC  01000
+
