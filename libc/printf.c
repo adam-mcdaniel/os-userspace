@@ -129,7 +129,7 @@ static inline void _out_buffer(char character, void *buffer, size_t idx, size_t 
 
 void _putchar(char c)
 {
-	asm volatile("mv a7, %0\nmv a0, %1\necall" : : "r"(1), "r"(c) : "a0", "a7");
+	__asm__ volatile("mv a7, %0\nmv a0, %1\necall" : : "r"(1), "r"(c) : "a0", "a7");
 }
 
 // internal null output
