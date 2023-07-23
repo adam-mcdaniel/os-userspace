@@ -2,13 +2,14 @@ OUTPUT_ARCH( "riscv" )
 ENTRY(_start)
 MEMORY
 {
-  ram  (wxari) : ORIGIN = 0x400000, LENGTH = 262K
+  ram  (wxari) : ORIGIN = 0xFFFFFFFF40000000, LENGTH = 262K
 }
 
 PHDRS
 {
   text PT_LOAD;
   data PT_LOAD;
+  rodata PT_LOAD;
   bss PT_NULL;
 }
 
@@ -26,19 +27,19 @@ SECTIONS
   . = ALIGN(8);
   PROVIDE(__global_pointer$ = .);
 
-  .bss : {
+  .bss : ALIGN(4096) {
     PROVIDE(_bss_start = .);
     *(.sbss .sbss.*) *(.bss .bss.*)
     PROVIDE(_bss_end = .);
   } >ram AT>ram :bss
   
-  .rodata : {
+  .rodata : ALIGN(4096) {
     PROVIDE(_rodata_start = .);
     *(.rodata .rodata.*)
     PROVIDE(_rodata_end = .);
-  } >ram AT>ram :text
+  } >ram AT>ram :rodata
 
-  .data : {
+  .data : ALIGN(4096) {
     . = ALIGN(4096);
     PROVIDE(_data_start = .);
     *(.sdata .sdata.*) *(.data .data.*)
