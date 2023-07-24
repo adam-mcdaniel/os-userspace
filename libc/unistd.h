@@ -11,6 +11,7 @@ struct stat;
 void    yield  (void);
 void    sleep  (int secs);
 int     stat   (const char *path, struct stat *stat);
+void   *sbrk   (int amount);
 int     open   (const char *pathname, int flags, mode_t mode);
 int     close  (int fd);
 ssize_t read   (int fd, void *buf, size_t count);
