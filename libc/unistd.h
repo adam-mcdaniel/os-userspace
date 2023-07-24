@@ -8,6 +8,7 @@ typedef unsigned long dev_t;
 
 struct stat;
 
+void    exit   (void);
 void    yield  (void);
 void    sleep  (int secs);
 int     stat   (const char *path, struct stat *stat);

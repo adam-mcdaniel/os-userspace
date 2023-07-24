@@ -24,6 +24,11 @@ enum SYSCALL_NOS {
     SYS_MKNOD,
 };
 
+void exit(void)
+{
+    __asm__ volatile("mv a7, %0\necall" :: "r"(SYS_EXIT) : "a7");
+}
+
 void yield(void)
 {
     __asm__ volatile("mv a7, %0\necall" : : "r"(SYS_YIELD) : "a7");
