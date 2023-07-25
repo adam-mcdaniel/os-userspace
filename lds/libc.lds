@@ -49,10 +49,4 @@ SECTIONS
   .eh_hdr : {
     *(.eh*)
   } >ram AT>ram :data
-
-  /* We need to make sure that the stack and heap are aligned by
-   a page size, which for Risc-V (and most architectures) is 4096.
-  */
-  . = ALIGN(4096);
-
 }
