@@ -49,6 +49,11 @@ void main(void) {
 				}
 			}
 		}
+		else if (c == 4) {
+			// EOF
+			printf("\nSee ya!\n");
+			break;
+		}
 		else if (c != 255) {
 			if (at < 255) {
 				command[at++] = c;
