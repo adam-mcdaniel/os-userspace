@@ -12,8 +12,6 @@ _start:
     la      gp, __global_pointer$
 
     call    main
-
-    li      a7, 0  # exit
-    ecall
+    tail    exit
 .size _start, . - _start
 .type _start, function   
