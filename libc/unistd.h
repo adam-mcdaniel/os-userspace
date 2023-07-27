@@ -25,6 +25,7 @@ int     rmdir  (const char *path);
 int     chdir  (const char *path);
 int     getcwd (char *buf, size_t bufsize);
 int     mknod  (const char *path, mode_t mode, dev_t dev);
+int     fork   (void);
 
 #define O_RDONLY 0
 #define O_WRONLY 1

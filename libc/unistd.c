@@ -22,6 +22,7 @@ enum SYSCALL_NOS {
     SYS_CHDIR,
     SYS_GETCWD,
     SYS_MKNOD,
+    SYS_FORK,
 };
 
 void exit(void)
@@ -176,5 +177,12 @@ int mknod(const char *path, mode_t mode, dev_t dev)
                      : "=r"(ret)
                      : "r"(SYS_MKNOD), "r"(path), "r"(mode), "r"(dev)
                      : "a0", "a1", "a2", "a7");
+    return ret;
+}
+
+int fork(void)
+{
+    int ret;
+    __asm__ volatile("mv a7, %1\necall\nmv %0, a0" :"=r"(ret) : "r"(SYS_FORK) : "a0", "a7");
     return ret;
 }
