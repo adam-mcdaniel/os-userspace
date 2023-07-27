@@ -1,6 +1,6 @@
 #include "unistd.h"
 
-enum SYSCALL_NOS {
+enum syscall_nos {
     SYS_EXIT = 0,
     SYS_PUTCHAR,
     SYS_GETCHAR,
@@ -9,7 +9,7 @@ enum SYSCALL_NOS {
     SYS_OLD_GET_EVENTS,
     SYS_OLD_GET_FB,
     SYS_SBRK,
-    SYS_STAT = 10,
+    SYS_FSTAT,
     SYS_OPEN,
     SYS_CLOSE,
     SYS_READ,
@@ -23,6 +23,9 @@ enum SYSCALL_NOS {
     SYS_GETCWD,
     SYS_MKNOD,
     SYS_FORK,
+    SYS_EXEC,
+    SYS_WAIT,
+    SYS_KILL,
 };
 
 void exit(void)
@@ -50,12 +53,12 @@ void *sbrk(int amt)
     return ret;
 }
 
-int stat(const char *path, struct stat *stat)
+int fstat(const char *path, struct stat *stat)
 {
     int ret;
     __asm__ volatile("mv a7, %1\nmv a0, %2\nmv a1, %3\necall\nmv %0, a0"
                      : "=r"(ret)
-                     : "r"(SYS_STAT), "r"(path), "r"(stat)
+                     : "r"(SYS_FSTAT), "r"(path), "r"(stat)
                      : "a0", "a1", "a7");
     return ret;
 }
@@ -184,5 +187,26 @@ int fork(void)
 {
     int ret;
     __asm__ volatile("mv a7, %1\necall\nmv %0, a0" :"=r"(ret) : "r"(SYS_FORK) : "a0", "a7");
+    return ret;
+}
+
+int exec(const char *path, const char *argv[])
+{
+    int ret;
+    __asm__ volatile("mv a7, %1\nmv a0, %2\nmv a1, %3\necall\nmv %0, a0" : "=r"(ret) : "r"(SYS_EXEC), "r"(path), "r"(argv) : "a0", "a1", "a7");
+    return ret;
+}
+
+int wait(int pid)
+{
+    int ret;
+    __asm__ volatile("mv a7, %1\nmv a0, %2\necall\nmv %0, a0" : "=r"(ret) : "r"(SYS_WAIT), "r"(pid) : "a0", "a7");
+    return ret;
+}
+
+int kill(int pid)
+{
+    int ret;
+    __asm__ volatile("mv a7, %1\nmv a0, %2\necall\nmv %0, a0" : "=r"(ret) : "r"(SYS_KILL), "r"(pid) : "a0", "a7");
     return ret;
 }

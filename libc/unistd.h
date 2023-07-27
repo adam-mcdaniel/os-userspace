@@ -11,7 +11,7 @@ struct stat;
 void    exit   (void);
 void    yield  (void);
 void    sleep  (int secs);
-int     stat   (const char *path, struct stat *stat);
+int     fstat   (const char *path, struct stat *stat);
 void   *sbrk   (int amount);
 int     open   (const char *pathname, int flags, mode_t mode);
 int     close  (int fd);
@@ -26,6 +26,9 @@ int     chdir  (const char *path);
 int     getcwd (char *buf, size_t bufsize);
 int     mknod  (const char *path, mode_t mode, dev_t dev);
 int     fork   (void);
+int     exec   (const char *path, const char *argv[]);
+int     wait   (int pid);
+int     kill   (int pid);
 
 #define O_RDONLY 0
 #define O_WRONLY 1
