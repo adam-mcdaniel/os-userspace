@@ -11,7 +11,7 @@ struct stat;
 void    exit   (void);
 void    yield  (void);
 void    sleep  (int secs);
-int     fstat   (const char *path, struct stat *stat);
+int     fstat  (const char *path, struct stat *stat);
 void   *sbrk   (int amount);
 int     open   (const char *pathname, int flags, mode_t mode);
 int     close  (int fd);
