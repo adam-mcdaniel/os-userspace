@@ -23,7 +23,7 @@ int     chmod  (const char *path, mode_t mode);
 int     mkdir  (const char *path, mode_t mode);
 int     rmdir  (const char *path);
 int     chdir  (const char *path);
-int     getcwd (char *buf, size_t bufsize);
+size_t  getcwd (char *buf, size_t bufsize);
 int     mknod  (const char *path, mode_t mode, dev_t dev);
 int     fork   (void);
 int     exec   (const char *path, const char *argv[]);
