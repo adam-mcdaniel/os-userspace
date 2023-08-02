@@ -163,7 +163,7 @@ int chdir(const char *path)
     return ret;
 }
 
-int getcwd(char *buf, size_t bufsize)
+size_t getcwd(char *buf, size_t bufsize)
 {
     int ret;
     __asm__ volatile("mv a7, %1\nmv a0, %2\nmv a1, %3\necall\nmv %0,a0"
