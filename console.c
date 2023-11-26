@@ -5,9 +5,54 @@
 
 static void run_command(char a[]);
 
+void print_hello() {
+	putchar('H');
+	putchar('e');
+	putchar('l');
+	putchar('l');
+	putchar('o');
+	putchar(' ');
+	putchar('w');
+	putchar('o');
+	putchar('r');
+	putchar('l');
+	putchar('d');
+	putchar('!');
+	putchar('\n');
+}
+
+void print_addr(uint8_t *addr) {
+	char hex[16];
+	uint64_t num = (uint64_t)addr;
+	for (int i = 0;i < 16;i++) {
+		uint8_t nibble = (num >> (60 - (i * 4))) & 0xF;
+		if (nibble < 10) {
+			hex[i] = '0' + nibble;
+		}
+		else {
+			hex[i] = 'a' + (nibble - 10);
+		}
+	}
+	putchar('0');
+	putchar('x');
+	for (int i = 0;i < 16;i++) {
+		putchar(hex[i]);
+	}
+	putchar('\n');
+}
+
+void print_str(char *str) {
+	for (int i = 0;str[i] != '\0';i++) {
+		putchar(str[i]);
+	}
+	putchar('\n');
+}
+
 void main(void) {
 	char c;
 	char command[256];
+	printf("It's me, Adam's in userspace!\n");
+
 	int at = 0;
 	printf("Welcome to the console in user space. Please type 'help' for help.\n");
 	printf("~> ");
@@ -70,6 +115,10 @@ void main(void) {
 static void run_command(char command[]) {
 	if (!strcmp(command, "help")) {
 		printf("Help is coming!\n");
+	}
+	if (!strcmp(command, "exit")) {
+		printf("Exitting!\n");
+		exit();
 	}
 	else if (!strcmp(command, "gev")) {
 		struct virtio_input_event events[64];

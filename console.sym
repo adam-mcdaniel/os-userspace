@@ -1,0 +1,77 @@
+
+console.elf:     file format elf64-littleriscv
+
+SYMBOL TABLE:
+fffffffff0000000 l    d  .text	0000000000000000 .text
+fffffffff0002000 l    d  .rodata	0000000000000000 .rodata
+fffffffff0003000 l    d  .data	0000000000000000 .data
+fffffffff0003000 l    d  .got	0000000000000000 .got
+fffffffff0003010 l    d  .got.plt	0000000000000000 .got.plt
+0000000000000000 l    d  .comment	0000000000000000 .comment
+0000000000000000 l    df *ABS*	0000000000000000 console.c
+fffffffff00003a8 l     F .text	0000000000000128 run_command
+0000000000000000 l    df *ABS*	0000000000000000 printf.c
+fffffffff00004d0 l     F .text	000000000000000c _out_buffer
+fffffffff00004dc l     F .text	0000000000000002 _out_null
+fffffffff00004de l     F .text	00000000000000c4 _out_rev
+fffffffff00005a2 l     F .text	00000000000002c4 _ntoa_long
+fffffffff00005a2 l     F .text	00000000000002c4 _ntoa_long_long
+fffffffff0000866 l     F .text	00000000000002f4 _etoa
+fffffffff0000b5a l     F .text	00000000000002f2 _ftoa
+fffffffff0000e4c l     F .text	000000000000000a _out_fct
+fffffffff0000e56 l     F .text	00000000000006b6 _vsnprintf
+fffffffff000151a l     F .text	0000000000000006 _out_char
+fffffffff0002340 l     O .rodata	0000000000000050 pow10.0
+0000000000000000 l    df *ABS*	0000000000000000 string.c
+0000000000000000 l    df *ABS*	0000000000000000 stdio.c
+0000000000000000 l    df *ABS*	0000000000000000 event.c
+0000000000000000 l    df *ABS*	0000000000000000 unistd.c
+0000000000000000 l    df *ABS*	0000000000000000 
+fffffffff0003000 l     O .got	0000000000000000 _GLOBAL_OFFSET_TABLE_
+fffffffff00018aa g     F .text	000000000000000e putchar
+fffffffff000150c g     F .text	000000000000000e _putchar
+fffffffff0000078 g     F .text	00000000000000ee print_addr
+fffffffff00018da g     F .text	000000000000000a yield
+fffffffff0001520 g     F .text	0000000000000032 printf
+fffffffff0001a98 g       .rodata	0000000000000000 __global_pointer$
+fffffffff00015b0 g     F .text	000000000000001e vprintf_
+fffffffff0001582 g     F .text	000000000000002e snprintf
+fffffffff0001a1e g     F .text	000000000000001c mknod
+fffffffff0001682 g     F .text	0000000000000078 memcpy
+fffffffff0000166 g     F .text	0000000000000050 print_str
+fffffffff00018e4 g     F .text	000000000000000e sleep
+fffffffff00019de g     F .text	0000000000000014 rmdir
+fffffffff0001980 g     F .text	000000000000001a lseek
+fffffffff00019ae g     F .text	0000000000000018 chmod
+fffffffff00015ce g     F .text	0000000000000012 vsnprintf_
+fffffffff0001966 g     F .text	000000000000001a write
+fffffffff00015e0 g     F .text	0000000000000036 fctprintf
+fffffffff0001904 g     F .text	0000000000000018 fstat
+fffffffff0001a76 g     F .text	0000000000000014 kill
+fffffffff00019f2 g     F .text	0000000000000014 chdir
+fffffffff0001a4a g     F .text	0000000000000018 exec
+fffffffff0001a62 g     F .text	0000000000000014 wait
+fffffffff0001a8a g     F .text	000000000000000e _start
+fffffffff000194c g     F .text	000000000000001a read
+fffffffff00017ca g     F .text	0000000000000084 strncmp
+fffffffff0000000 g     F .text	0000000000000078 print_hello
+fffffffff000199a g     F .text	0000000000000014 unlink
+fffffffff00016fa g     F .text	0000000000000024 memcmp
+fffffffff0001a3a g     F .text	0000000000000010 fork
+fffffffff000184e g     F .text	000000000000002c strfindchr
+fffffffff00018f2 g     F .text	0000000000000012 sbrk
+fffffffff00018b8 g     F .text	0000000000000018 get_events
+fffffffff0001616 g     F .text	000000000000006c memset
+fffffffff00001b6 g     F .text	00000000000001f2 main
+fffffffff000189a g     F .text	0000000000000010 getchar
+fffffffff00017ac g     F .text	000000000000001e strcmp
+fffffffff0001a06 g     F .text	0000000000000018 getcwd
+fffffffff0001552 g     F .text	0000000000000030 sprintf
+fffffffff00018d0 g     F .text	000000000000000a exit
+fffffffff000171e g     F .text	000000000000008e atoi
+fffffffff000187a g     F .text	0000000000000020 strlen
+fffffffff000191c g     F .text	000000000000001c open
+fffffffff00019c6 g     F .text	0000000000000018 mkdir
+fffffffff0001938 g     F .text	0000000000000014 close
+
+
