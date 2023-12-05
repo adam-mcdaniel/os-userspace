@@ -2,7 +2,7 @@ OUTPUT_ARCH( "riscv" )
 ENTRY(_start)
 MEMORY
 {
-  ram  (wxari) : ORIGIN = 0xFFFFFFFFF0000000, LENGTH = 262K
+  ram  (wxari) : ORIGIN = 0xFFFFFFFFF0000000, LENGTH = 800K
 }
 
 PHDRS
@@ -18,7 +18,7 @@ SECTIONS
   PROVIDE(_memory_start = ORIGIN(ram));
   PROVIDE(_memory_end = _memory_start + LENGTH(ram));
 
-  .text : {
+  .text : ALIGN(4096) {
     PROVIDE(_text_start = .);
     *(.text.init) *(.text .text.*)
     PROVIDE(_text_end = .);
