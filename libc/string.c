@@ -1,5 +1,6 @@
 #include "string.h"
 
+
 void *memset(void *dst, char data, int size)
 {
 	int64_t i;

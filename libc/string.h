@@ -12,5 +12,3 @@ int strcmp(const char *l, const char *r);
 int strncmp(const char *l, const char *r, int n);
 int strfindchr(const char *r, char t);
 int strlen(const char *s);
-
-

@@ -2,6 +2,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <event.h>
+#include <malloc.h>
+#include <sage.h>
+#include <stdint.h>
+#include <ctype.h>
+#include <rand.h>
 
 static void run_command(char a[]);
 
@@ -49,6 +54,18 @@ void print_str(char *str) {
 }
 
 void main(void) {
+	// init_malloc(heap, sizeof(heap) / 2);
+	uint64_t time = get_time();
+	printf("Got time: %d\n", time);
+	srand(time);
+	printf("Got random: %d\n", rand());
+	printf("Got random: %d\n", rand());
+	printf("Got random: %d\n", rand());
+	printf("Got random: %d\n", rand());
+	printf("Got random: %d\n", rand());
+	Rectangle dims;
+	screen_get_dims(&dims);
+	printf("Got screen dims: %d, %d, %d, %d\n", dims.x, dims.y, dims.width, dims.height);
 	char c;
 	char command[256];
 	printf("It's me, Adam's in userspace!\n");
@@ -112,13 +129,104 @@ void main(void) {
 	} while (1);
 }
 
+
 static void run_command(char command[]) {
+	uint8_t buf[1024];
 	if (!strcmp(command, "help")) {
 		printf("Help is coming!\n");
 	}
-	if (!strcmp(command, "exit")) {
+	else if (!strcmp(command, "exit")) {
 		printf("Exitting!\n");
 		exit();
+	}
+	else if (!strcmp(command, "pwd")) {
+		printf("pwd\n");
+
+		get_env("CWD", (char*)buf);
+
+		printf("%.1024s\n", buf);
+	}
+	else if (!strcmp(command, "getpid")) {
+		printf("getpid: %d\n", get_pid());
+	}
+	else if (!strcmp(command, "nextpid")) {
+		static int n = -1;
+		if (n == -1 || n >= 0x500) {
+			n = get_pid();
+		}
+		printf("nextpid: %d\n", n = next_pid(n));
+	}
+	else if (!strcmp(command, "draw")) {
+		// Draw a square
+		Pixel test[0x100];
+		Rectangle rect;
+		for (int i=0;i<100; i++) {
+			rect.x = rand() % 0x100 + 0x100;
+			rect.y = rand() % 0x100 + 0x100;
+			rect.width = 0x10;
+			rect.height = 0x10;
+			for (int i = 0; i < 0x100;i++) {
+				test[i].r = rand();
+				test[i].g = rand();
+				test[i].b = rand();
+				test[i].a = 0xFF;
+			}
+
+			screen_draw_rect(test, &rect, 1, 1);
+			screen_flush(&rect);
+		}
+	}
+	else if (!strncmp(command, "pidgetenv", 9)) {
+		// Get the PID from the command
+		int pid, i;
+		pid = 0;
+		printf("pid=%d\n", pid);
+		printf("pidgetenv: %s\n", command);
+		for (i = 9; command[i] != '\0' && i < 256; i++) {
+			printf("command[%d] = %c\n", i, command[i]);
+			if (isdigit(command[i])) {
+				pid *= 10;
+				pid += command[i] - '0';
+			} else if (isspace(command[i])) {
+				continue;
+			} else {
+				printf("Invalid PID\n");
+				return;
+			}
+		}
+
+		printf("pidgetenv: %d\n", pid_get_env(pid, "CWD", (char*)buf));
+		printf("%.1024s\n", buf);
+	}
+	else if (!strncmp(command, "pidputenv", 9)) {
+		// Get the PID from the command
+		int pid, i;
+		pid = 0;
+		printf("pid=%d\n", pid);
+		printf("pidputenv: %s\n", command);
+		for (i=9; isspace(command[i]); i++);
+
+		for (; isdigit(command[i]) && i < 256; i++) {
+			printf("command[%d] = %c\n", i, command[i]);
+			pid *= 10;
+			pid += command[i] - '0';
+		}
+
+		if (command[i] != ' ') {
+			printf("Invalid PID\n");
+			return;
+		}
+
+		// Get the symbol after the PID
+		for (; isspace(command[i]); i++);
+		char *name = &command[i];
+
+		printf("pidputenv: %d\n", pid_put_env(pid, "CWD", name));
+		printf("%.1024s\n", buf);
+	}
+	else if (!strcmp(command, "cd")) {
+		printf("cd\n");
+		put_env("CWD", "~");
 	}
 	else if (!strcmp(command, "gev")) {
 		struct virtio_input_event events[64];
