@@ -3,7 +3,7 @@ CC=$(CROSS_COMPILE)gcc
 CXX=$(CROSS_COMPILE)g++
 OBJCOPY=$(CROSS_COMPILE)objcopy
 # Get the optimization level from the environment `OPT_LEVEL=1`, or default to -O3
-OPT_LEVEL?=3
+OPT_LEVEL?=s
 CFLAGS=-Wall -Wextra -pedantic -Werror -std=c2x -march=rv64gc -mabi=lp64d -ffreestanding -nostdlib -nostartfiles -O$(OPT_LEVEL) -Ilibc/ -mcmodel=medany
 LDFLAGS=-Tlds/libc.lds -Llibc
 LIBS=-lc
