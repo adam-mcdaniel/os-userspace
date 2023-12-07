@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef struct Rectangle {
     uint32_t x;
@@ -38,3 +39,14 @@ uint64_t get_time(void);
 int get_keyboard_event(VirtioInputEvent *event);
 int get_tablet_event(VirtioInputEvent *event);
 
+
+
+// SYSCALL_PTR(path_exists), /* 18 */
+// SYSCALL_PTR(path_is_dir), /* 19 */
+// SYSCALL_PTR(path_is_file), /* 20 */
+// SYSCALL_PTR(path_list_dir), /* 21 */
+
+bool path_exists(const char *path);
+bool path_is_dir(const char *path);
+bool path_is_file(const char *path);
+int path_list_dir(const char *path, char *buf, int buf_size, bool return_full_path);

@@ -158,23 +158,104 @@ static void run_command(char command[]) {
 	}
 	else if (!strcmp(command, "draw")) {
 		// Draw a square
-		Pixel test[0x100];
+		Pixel test[0x400] = {0};
 		Rectangle rect;
-		for (int i=0;i<100; i++) {
+		for (int i=0;i<400; i++) {
 			rect.x = rand() % 0x100 + 0x100;
 			rect.y = rand() % 0x100 + 0x100;
-			rect.width = 0x10;
-			rect.height = 0x10;
-			for (int i = 0; i < 0x100;i++) {
-				test[i].r = rand();
-				test[i].g = rand();
-				test[i].b = rand();
-				test[i].a = 0xFF;
+			rect.width = 0x20;
+			rect.height = 0x20;
+
+			test[0].r = rand();
+			test[0].g = rand();
+			test[0].b = rand();
+			test[0].a = 0xFF;
+			for (uint32_t i = 1; i < sizeof(test) / sizeof(test[0]); i++) {
+				test[i] = test[0];
 			}
 
 			screen_draw_rect(test, &rect, 1, 1);
 			screen_flush(&rect);
 		}
+	}
+	else if (!strncmp(command, "ls", 2)) {
+		// Get the path from the command
+		char path[256] = {0};
+		int i, j;
+		for (i = 2; command[i] != '\0' && i < 256; i++) {
+			if (isspace(command[i])) {
+				continue;
+			} else {
+				break;
+			}
+		}
+
+		for (j=0; command[i] != '\0' && i < 256; i++, j++) {
+			path[j] = command[i];
+		}
+		path[j] = '\0';
+
+		printf("ls: %s\n", path);
+		char buf[1024] = {0};
+		path_list_dir(path, buf, sizeof(buf), true);
+		printf("Result:\n%.1024s\n", buf);
+	}
+	else if (!strncmp(command, "isdir", 5)) {
+		char path[256] = {0};
+		int i, j;
+		for (i = 5; command[i] != '\0' && i < 256; i++) {
+			if (isspace(command[i])) {
+				continue;
+			} else {
+				break;
+			}
+		}
+
+		for (j=0; command[i] != '\0' && i < 256; i++, j++) {
+			path[j] = command[i];
+		}
+		path[j] = '\0';
+
+		printf("isdir: %s\n", path);
+		printf("Result: %d\n", path_is_dir(path));
+	}
+	else if (!strncmp(command, "isfile", 5)) {
+		char path[256];
+		int i, j;
+		for (i = 5; command[i] != '\0' && i < 256; i++) {
+			if (isspace(command[i])) {
+				continue;
+			} else {
+				break;
+			}
+		}
+
+		for (j=0; command[i] != '\0' && i < 256; i++, j++) {
+			path[j] = command[i];
+		}
+		path[j] = '\0';
+
+		printf("isfile: %s\n", path);
+		printf("Result: %d\n", path_is_file(path));
+	}
+	else if (!strncmp(command, "exists", 6)) {
+		char path[256];
+		int i, j;
+		for (i = 6; command[i] != '\0' && i < 256; i++) {
+			if (isspace(command[i])) {
+				continue;
+			} else {
+				break;
+			}
+		}
+
+		for (j=0; command[i] != '\0' && i < 256; i++, j++) {
+			path[j] = command[i];
+		}
+		path[j] = '\0';
+
+		printf("isfile: %s\n", path);
+		printf("Result: %d\n", path_exists(path));
 	}
 	else if (!strncmp(command, "pidgetenv", 9)) {
 		// Get the PID from the command

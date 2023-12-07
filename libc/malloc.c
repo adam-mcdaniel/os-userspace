@@ -6,41 +6,42 @@
 #define NULL ((void*)0)
 
 
-void init_malloc(void *start, uint32_t size) {
-    printf("init_malloc: %p - %p\n", start, ((uint8_t*)start) + size);
-    salloc_init(start, ((uint8_t*)start) + size);
-}
-
 uint8_t *heap_start, *heap_end;
 void salloc_init(uint8_t *start, uint8_t *end) {
     heap_start = start;
     heap_end = end;
-    printf("salloc_init: %p - %p\n", heap_start, heap_end);
+    // printf("salloc_init: %p - %p\n", heap_start, heap_end);
+}
+
+
+void init_malloc(void *start, uint32_t size) {
+    // printf("init_malloc: %p - %p\n", start, ((uint8_t*)start) + size);
+    salloc_init(start, ((uint8_t*)start) + size);
 }
 
 void *salloc(uint32_t bytes) {
-	printf("salloc: %d\n", bytes);
+	// printf("salloc: %d\n", bytes);
 	uint64_t words = (bytes + 128) / 8;
     uint64_t *ret = (uint64_t*)heap_start;
     while (*ret != 0) {
-		printf("salloc: %p taken with reserved words=%ld, bytes=%ld\n", ret, *ret, *ret * 8);
+		// printf("salloc: %p taken with reserved words=%ld, bytes=%ld\n", ret, *ret, *ret * 8);
         ret += *ret;
         if ((uintptr_t)ret >= (uintptr_t)heap_end) {
-            printf("salloc: out of memory\n");
-            printf("salloc: tried to allocate %d bytes\n", bytes);
+            // printf("salloc: out of memory\n");
+            // printf("salloc: tried to allocate %d bytes\n", bytes);
             return NULL;
         }
     }
     *ret = words;
     ret++;
-	printf("salloc: %p (remaining=%d)\n", ret, (uint32_t)(heap_end - ((uint8_t*)ret + bytes)));
+	// printf("salloc: %p (remaining=%d)\n", ret, (uint32_t)(heap_end - ((uint8_t*)ret + bytes)));
     return ret;
 }
 
 void sfree(void *ptr) {
-	printf("sfree: %p\n", ptr);
+	// printf("sfree: %p\n", ptr);
 	if ((uintptr_t)ptr < (uintptr_t)heap_start || (uintptr_t)ptr >= (uintptr_t)heap_end) {
-		printf("sfree: invalid pointer\n");
+		// printf("sfree: invalid pointer\n");
 		return;
 	}
 

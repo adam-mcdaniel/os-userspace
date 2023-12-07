@@ -94,3 +94,28 @@ int get_tablet_event(VirtioInputEvent *event) {
     __asm__ volatile("mv a7, %1\nmv a0, %2\necall\nmv %0, a0" : "=r"(ret) : "r"(17), "r"(event) : "a0", "a7");
     return ret;
 }
+
+bool path_exists(const char *path) {
+    bool ret;
+    __asm__ volatile("mv a7, %1\nmv a0, %2\necall\nmv %0, a0" : "=r"(ret) : "r"(18), "r"(path) : "a0", "a7");
+    return ret;
+}
+
+bool path_is_dir(const char *path) {
+    bool ret;
+    __asm__ volatile("mv a7, %1\nmv a0, %2\necall\nmv %0, a0" : "=r"(ret) : "r"(19), "r"(path) : "a0", "a7");
+    return ret;
+}
+
+bool path_is_file(const char *path) {
+    bool ret;
+    __asm__ volatile("mv a7, %1\nmv a0, %2\necall\nmv %0, a0" : "=r"(ret) : "r"(20), "r"(path) : "a0", "a7");
+    return ret;
+}
+
+
+int path_list_dir(const char *path, char *buf, int buf_size, bool return_full_path) {
+    int ret;
+    // Pass the path in a0, buf in a1, buf_size in a2, return_full_path in a3
+    __asm__ volatile("mv a7, %1\nmv a0, %2\nmv a1, %3\nmv a2, %4\nmv a3, %5\necall\nmv %0, a0" : "=r"(ret) : "r"(21), "r"(path), "r"(buf), "r"(buf_size), "r"(return_full_path) : "a0", "a1", "a2", "a3", "a7");
+}
