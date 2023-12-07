@@ -50,3 +50,5 @@ bool path_exists(const char *path);
 bool path_is_dir(const char *path);
 bool path_is_file(const char *path);
 int path_list_dir(const char *path, char *buf, int buf_size, bool return_full_path);
+
+int spawn_process(char *path);

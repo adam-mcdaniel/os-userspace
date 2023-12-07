@@ -257,6 +257,32 @@ static void run_command(char command[]) {
 		printf("isfile: %s\n", path);
 		printf("Result: %d\n", path_exists(path));
 	}
+	else if (!strncmp(command, "spawn", 5)) {
+		char path[256];
+		int i, j;
+		for (i = 5; command[i] != '\0' && i < 256; i++) {
+			if (isspace(command[i])) {
+				continue;
+			} else {
+				break;
+			}
+		}
+
+		for (j=0; command[i] != '\0' && i < 256; i++, j++) {
+			path[j] = command[i];
+		}
+		path[j] = '\0';
+
+		// printf("isfile: %s\n", path);
+		// printf("Result: %d\n", path_exists(path));
+		int pid = spawn_process(path);
+		if (pid < 0) {
+			printf("Failed to spawn process.\n");
+		}
+		else {
+			printf("Spawned process %d.\n", pid);
+		}
+	}
 	else if (!strncmp(command, "pidgetenv", 9)) {
 		// Get the PID from the command
 		int pid, i;
