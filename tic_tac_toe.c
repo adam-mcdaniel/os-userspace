@@ -13,12 +13,15 @@
 
 #define SCREEN_WIDTH (1280)
 #define SCREEN_HEIGHT (800)
-#define WIDTH (600)
-#define HEIGHT (600)
+// #define WIDTH (600)
+// #define HEIGHT (600)
+#define WIDTH SCREEN_WIDTH
+#define HEIGHT SCREEN_HEIGHT
 #define BORDER_THICKNESS (10)
 
-#define XO_WIDTH (100)
-#define XO_HEIGHT (100)
+#define XO_WIDTH (SCREEN_WIDTH / 6)
+#define XO_HEIGHT (SCREEN_HEIGHT / 6)
+// #define XO_HEIGHT (100)
 
 #define COL_LIMIT0 (WIDTH / 3)
 #define COL_LIMIT1 (2 * WIDTH / 3)
@@ -35,14 +38,14 @@
 #define CELL_Y1 (CELL_Y0 + ROW_LIMIT0)
 #define CELL_Y2 (CELL_Y0 + ROW_LIMIT1)
 
-int cell_x[3];
-int cell_y[3];
+static int cell_x[3];
+static int cell_y[3];
 
-char turn;
-bool filled[9];
-bool which_player[9];
-bool whos_turn;
-bool who_won;
+static char turn;
+static bool filled[9];
+static bool which_player[9];
+static bool whos_turn;
+static bool who_won;
 
 void draw_board(Pixel *buf, Pixel *background_pix, Pixel *border_pix, uint32_t screen_width, uint32_t screen_height) {
   // Background
@@ -265,6 +268,7 @@ int main() {
   printf("Printed board!\n");
 
   VirtioInputEvent tablet_event;
+  VirtioInputEvent keyboard_event;
   uint32_t tablet_x = 0;
   uint32_t tablet_y = 0;
 
@@ -292,63 +296,78 @@ int main() {
       }
 
       if (filled[1] == false &&
-          tablet_x > ROW_LIMIT0 &&
-          tablet_x < ROW_LIMIT1 &&
-          tablet_y < COL_LIMIT0) {
+          tablet_x > COL_LIMIT0 &&
+          tablet_x < COL_LIMIT1 &&
+          tablet_y < ROW_LIMIT0) {
         update_cell(1, buf);
       }
 
       if (filled[2] == false &&
-          tablet_x > ROW_LIMIT1 &&
-          tablet_x < ROW_LIMIT2 &&
-          tablet_y < COL_LIMIT0) {
+          tablet_x > COL_LIMIT1 &&
+          tablet_x < COL_LIMIT2 &&
+          tablet_y < ROW_LIMIT0) {
         update_cell(2, buf);
       }
 
       if (filled[3] == false &&
-          tablet_x < ROW_LIMIT0 && 
-          tablet_y < COL_LIMIT1 &&
-          tablet_y > COL_LIMIT0) {
+          tablet_x < COL_LIMIT0 && 
+          tablet_y < ROW_LIMIT1 &&
+          tablet_y > ROW_LIMIT0) {
         update_cell(3, buf);
       }
 
       if (filled[4] == false &&
-          tablet_x > ROW_LIMIT0 && 
-          tablet_x < ROW_LIMIT1 &&
-          tablet_y > COL_LIMIT0 &&
-          tablet_y < COL_LIMIT1) {
+          tablet_x > COL_LIMIT0 && 
+          tablet_x < COL_LIMIT1 &&
+          tablet_y > ROW_LIMIT0 &&
+          tablet_y < ROW_LIMIT1) {
         update_cell(4, buf);
       }
 
       if (filled[5] == false &&
-          tablet_x > ROW_LIMIT1 && 
-          tablet_x < ROW_LIMIT2 &&
-          tablet_y > COL_LIMIT0 &&
-          tablet_y < COL_LIMIT1) {
+          tablet_x > COL_LIMIT1 && 
+          tablet_x < COL_LIMIT2 &&
+          tablet_y > ROW_LIMIT0 &&
+          tablet_y < ROW_LIMIT1) {
         update_cell(5, buf);
       }
 
       if (filled[6] == false &&
-          tablet_x < ROW_LIMIT0 && 
-          tablet_y > COL_LIMIT1 &&
-          tablet_y < COL_LIMIT2) {
+          tablet_x < COL_LIMIT0 && 
+          tablet_y > ROW_LIMIT1 &&
+          tablet_y < ROW_LIMIT2) {
         update_cell(6, buf);
       }
 
       if (filled[7] == false &&
-          tablet_x > ROW_LIMIT0 && 
-          tablet_x < ROW_LIMIT1 &&
-          tablet_y > COL_LIMIT1 &&
-          tablet_y < COL_LIMIT2) {
+          tablet_x > COL_LIMIT0 && 
+          tablet_x < COL_LIMIT1 &&
+          tablet_y > ROW_LIMIT1 &&
+          tablet_y < ROW_LIMIT2) {
         update_cell(7, buf);
       }
 
       if (filled[8] == false &&
-          tablet_x > ROW_LIMIT1 && 
-          tablet_x < ROW_LIMIT2 &&
-          tablet_y > COL_LIMIT1 &&
-          tablet_y < COL_LIMIT2) {
+          tablet_x > COL_LIMIT1 && 
+          tablet_x < COL_LIMIT2 &&
+          tablet_y > ROW_LIMIT1 &&
+          tablet_y < ROW_LIMIT2) {
         update_cell(8, buf);
+      }
+    }
+
+    // Process exit command (ctrl + c)
+    get_keyboard_event(&keyboard_event);
+    if (keyboard_event.type == EV_KEY && keyboard_event.code == KEY_LEFTCTRL && keyboard_event.value == 1) {
+      printf("YO\n");
+      printf("T: 0x%x, C: 0x%x, V: 0x%x\n", keyboard_event.type, keyboard_event.code, keyboard_event.value);
+      do {
+        get_keyboard_event(&keyboard_event);
+      } while (keyboard_event.type == EV_SYN);
+      printf("T: 0x%x, C: 0x%x, V: 0x%x\n", keyboard_event.type, keyboard_event.code, keyboard_event.value);
+      if (keyboard_event.type == EV_KEY && keyboard_event.code == KEY_C) {
+        printf("Exiting...\n");
+        exit();
       }
     }
 
